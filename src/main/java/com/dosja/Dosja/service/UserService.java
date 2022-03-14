@@ -13,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 
@@ -40,7 +39,7 @@ public class UserService {
             map.put("token",  jwtTokenProvider.createToken(username, userRepository.findByUsername(username).getRoles()));
             return map;
         } catch (AuthenticationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Username or Password");
+            throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -50,7 +49,7 @@ public class UserService {
             userRepository.save(user);
             return jwtTokenProvider.createToken(user.getUsername(), user.getRoles());
         } else {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username already exists");
+            throw new CustomException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -61,7 +60,7 @@ public class UserService {
     public Users search(String username) {
         Users user = userRepository.findByUsername(username);
         if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"The user doesn't exist");
+            throw new CustomException("The user doesn't exist", HttpStatus.NOT_FOUND);
         }
         return user;
     }

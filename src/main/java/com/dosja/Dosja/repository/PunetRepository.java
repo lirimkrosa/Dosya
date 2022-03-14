@@ -5,9 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.dosja.Dosja.model.Punet;
 
-import java.util.UUID;
-
 @Repository
-public interface PunetRepository extends JpaRepository<Punet, UUID> {
+public interface PunetRepository extends JpaRepository<Punet, Long> {
 
 }

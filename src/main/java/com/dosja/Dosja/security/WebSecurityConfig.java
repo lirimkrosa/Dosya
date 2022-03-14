@@ -21,8 +21,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    private static final String[] AUTH_WHITELIST = {};
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -37,10 +35,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/signin").permitAll()//
                 .antMatchers("/api/signup").permitAll()//
                 .antMatchers("/h2-console/**/**").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/webjars/**").permitAll()
                 // Disallow everything else..
                 .anyRequest().authenticated();
 
