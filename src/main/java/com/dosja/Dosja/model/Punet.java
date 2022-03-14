@@ -1,7 +1,6 @@
 package com.dosja.Dosja.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -12,10 +11,6 @@ import javax.validation.constraints.Size;
 @JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
 
 public class Punet extends Auditable<String> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Size(min = 5, max = 20, message
             = "Product must be between 5 and 20 characters")
@@ -35,18 +30,9 @@ public class Punet extends Auditable<String> {
     @NotNull(message = "Price cannot be null")
     private Integer price;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getProduct() {
         return product;
     }
-
     public void setProduct(String product) {
         this.product = product;
     }
@@ -54,7 +40,6 @@ public class Punet extends Auditable<String> {
     public String getMaterial() {
         return material;
     }
-
     public void setMaterial(String material) {
         this.material = material;
     }
@@ -62,7 +47,6 @@ public class Punet extends Auditable<String> {
     public String getCompany() {
         return company;
     }
-
     public void setCompany(String company) {
         this.company = company;
     }
@@ -70,7 +54,6 @@ public class Punet extends Auditable<String> {
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
@@ -78,7 +61,6 @@ public class Punet extends Auditable<String> {
     public String getClient() {
         return client;
     }
-
     public void setClient(String client) {
         this.client = client;
     }
@@ -86,9 +68,9 @@ public class Punet extends Auditable<String> {
     public Integer getPrice() {
         return price;
     }
-
     public void setPrice(Integer price) {
         this.price = price;
     }
+
 
 }

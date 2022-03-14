@@ -13,7 +13,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -54,15 +56,23 @@ public class PunetController {
 
     @GetMapping("/punet/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Punet getPunebyId(@PathVariable(value = "id") Long puneID) {
+    public Punet getPunebyId(@PathVariable(value = "id") UUID puneID) {
 
         return punetRep.findById(puneID)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment", "id", puneID));
     }
 
+    @GetMapping("/punet/user/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Punet getPunebyUser(@PathVariable(value = "id") UUID userId){
+
+       return punetRep.findById(userId)
+               .orElseThrow(()-> new ResourceNotFoundException("Comment","id", userId));
+    }
+
     @PutMapping("/punet/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Punet updatePunet(@PathVariable(value = "id") Long punaId, @RequestBody Punet punaDetails) {
+    public Punet updatePunet(@PathVariable(value = "id") UUID punaId, @RequestBody Punet punaDetails) {
 
         Punet punet = punetRep.findById(punaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment", "id", punaId));
@@ -79,7 +89,7 @@ public class PunetController {
 
     @DeleteMapping("/punet/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Punet>  deletePuna(@PathVariable(value = "id") Long punaId) {
+    public ResponseEntity<Punet>  deletePuna(@PathVariable(value = "id") UUID punaId) {
         Punet puna = punetRep.findById(punaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment", "id", punaId));
 
