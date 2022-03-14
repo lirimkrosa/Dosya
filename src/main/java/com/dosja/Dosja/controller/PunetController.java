@@ -77,12 +77,10 @@ public class PunetController {
         Punet punet = punetRep.findById(punaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment", "id", punaId));
 
-        punet.setClient(punaDetails.getClient());
-        punet.setCompany(punaDetails.getCompany());
-        punet.setDescription(punaDetails.getDescription());
-        punet.setMaterial(punaDetails.getMaterial());
+        punet.setName(punaDetails.getName());
         punet.setPrice(punaDetails.getPrice());
-        punet.setProduct(punaDetails.getProduct());
+        punet.setDescription(punaDetails.getDescription());
+        punet.setStatus(punaDetails.getStatus());
         Punet updatedPunet = punetRep.save(punet);
         return updatedPunet;
     }

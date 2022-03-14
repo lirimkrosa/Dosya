@@ -2,12 +2,14 @@ package com.dosja.Dosja.controller;
 
 import com.dosja.Dosja.dto.UserDataDTO;
 import com.dosja.Dosja.dto.UserResponseDTO;
+import com.dosja.Dosja.exception.CustomException;
 import com.dosja.Dosja.model.Users;
 import com.dosja.Dosja.service.UserService;
 
 import io.swagger.annotations.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
@@ -73,14 +75,17 @@ public class UserController {
     }
 
     @GetMapping(value = "/me")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
     @ApiOperation(value = "${UserController.me}", response = UserResponseDTO.class, authorizations = { @Authorization(value="apiKey") })
     @ApiResponses(value = {//
             @ApiResponse(code = 400, message = "Something went wrong"), //
             @ApiResponse(code = 403, message = "Access denied"), //
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
     public UserResponseDTO whoami(HttpServletRequest req) {
-        return modelMapper.map(userService.whoami(req), UserResponseDTO.class);
+        try {
+            return modelMapper.map(userService.whoami(req), UserResponseDTO.class);
+        }catch( CustomException e){
+            throw new CustomException(e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/refresh")

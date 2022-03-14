@@ -1,12 +1,14 @@
 package com.dosja.Dosja.dto;
 
+import com.dosja.Dosja.model.Auditable;
 import com.dosja.Dosja.model.Role;
+import com.dosja.Dosja.model.Users;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 import java.util.List;
 
-public class UserDataDTO {
+public class UserDataDTO extends Users {
 
     @ApiModelProperty(position = 0)
     private String username;
@@ -19,11 +21,7 @@ public class UserDataDTO {
     @ApiModelProperty(position = 4)
     List<Role> roles;
 
-    @ApiModelProperty(position = 5)
-    private Date createdAt;
-
     @ApiModelProperty(position = 6)
-    private Date updatedAt;
     public String getUsername() {
         return username;
     }
@@ -64,19 +62,4 @@ public class UserDataDTO {
         this.full_name = full_name;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 }

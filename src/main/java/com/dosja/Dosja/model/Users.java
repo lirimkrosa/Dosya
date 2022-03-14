@@ -1,5 +1,7 @@
 package com.dosja.Dosja.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.List;
@@ -20,14 +22,20 @@ public class Users extends Auditable<String> {
     private String email;
 
     @Size(min = 8, message = "Minimum password length: 8 characters")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @Column(nullable = false)
     private String full_name;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ElementCollection(fetch = FetchType.EAGER)
     List<Role> roles;
 
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "discount_id", referencedColumnName = "id")
+    private Discount discount;
 
     public String getFull_name() {
         return full_name;
@@ -67,6 +75,14 @@ public class Users extends Auditable<String> {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
     }
 
 

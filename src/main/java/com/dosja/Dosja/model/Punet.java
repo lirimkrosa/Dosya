@@ -2,8 +2,12 @@ package com.dosja.Dosja.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
+
 
 @Entity
 @Table(name = "Punet")
@@ -12,64 +16,52 @@ import javax.validation.constraints.Size;
 
 public class Punet extends Auditable<String> {
 
-    @Size(min = 5, max = 20, message
-            = "Product must be between 5 and 20 characters")
-    private String product;
+    @Size(min = 5, max =20,message = "Product must be between 5 and 20 characters")
+    private String name;
 
-    @NotNull(message = "Material cannot be null")
-    private String material;
+    @DecimalMin(value = "0.0",inclusive = false)
+    @Digits(integer = 3, fraction = 2)
+    private BigDecimal price;
 
-    @NotNull(message = "Company cannot be null")
-    private String company;
-
+    @Size(max =500,message = "Limit description characters is 500")
     private String description;
 
-    @NotNull(message = "Client cannot be null")
-    private String client;
-
-    @NotNull(message = "Price cannot be null")
-    private Integer price;
-
-    public String getProduct() {
-        return product;
-    }
-    public void setProduct(String product) {
-        this.product = product;
+    @Enumerated(EnumType.ORDINAL)
+    private InvoiceStatus status;
+    public enum InvoiceStatus {
+        PAID, UNPAID
     }
 
-    public String getMaterial() {
-        return material;
-    }
-    public void setMaterial(String material) {
-        this.material = material;
+    public String getName() {
+        return name;
     }
 
-    public String getCompany() {
-        return company;
+    public void setName(String name) {
+        this.name = name;
     }
-    public void setCompany(String company) {
-        this.company = company;
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public String getDescription() {
         return description;
     }
-    public void setDescription(String description) {
+
+    public void setDescription(String  description) {
         this.description = description;
     }
 
-    public String getClient() {
-        return client;
-    }
-    public void setClient(String client) {
-        this.client = client;
+    public InvoiceStatus getStatus() {
+        return status;
     }
 
-    public Integer getPrice() {
-        return price;
-    }
-    public void setPrice(Integer price) {
-        this.price = price;
+    public void setStatus(InvoiceStatus status) {
+        this.status = status;
     }
 
 
